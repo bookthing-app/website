@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const useSlug = (slug: string) => {
   const queryFn = async () => {
-    return axios.post("/api/slug", { slug });
+    return axios.post("/api/slug", { slug }).then(({ data }) => data.data);
   };
 
   return {

@@ -40,7 +40,7 @@ export const Information = ({
   navigate: (step: SignupState) => void;
 }) => {
   const form = useFormContext<Schema>();
-  const [name, slug, isAvailable] = form.getValues([
+  const [name, slug, isAvailable] = form.watch([
     "company_name",
     "slug",
     "slug_available",
@@ -60,6 +60,13 @@ export const Information = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slugQuery.error]);
+
+  useEffect(() => {
+    if (slugQuery.data === "ok") {
+      form.setValue("slug_available", true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [slugQuery.data]);
 
   const handleGoForward = async () => {
     const valid = await form.trigger([
