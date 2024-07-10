@@ -41,6 +41,7 @@ export const Auth = () => {
       custom={1}
       className="flex flex-col justify-center items-center rounded-lg border min-h-[125px]"
     >
+      {process.env.NODE_ENV}
       <AnimatePresence>
         {!form.formState.isSubmitted && (
           <motion.div
