@@ -12,8 +12,9 @@ import { variants, transition } from "@/features/signup/animations";
 
 import type { Schema } from "./schema";
 
-// TODO: Fix with correct environment check
-const botName = "bookthing_dev_bot"
+const botName = ["development", "preview"].includes(process.env.VERCEL_ENV!)
+  ? "bookthing_dev_bot"
+  : "bookthing_bot";
 
 export const Auth = () => {
   const form = useFormContext<Schema>();
