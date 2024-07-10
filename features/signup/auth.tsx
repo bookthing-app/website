@@ -12,7 +12,7 @@ import { variants, transition } from "@/features/signup/animations";
 
 import type { Schema } from "./schema";
 
-const botName = ["development", "preview"].includes(process.env.VERCEL_ENV!)
+const botName = ["development", "preview"].includes(process.env.NEXT_PUBLIC_VERCEL_ENV!)
   ? "bookthing_dev_bot"
   : "bookthing_bot";
 
