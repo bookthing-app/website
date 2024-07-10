@@ -1,13 +1,12 @@
 import { captureException } from "@sentry/nextjs";
 
-import { useSearchParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import { event } from "@/lib/pixel";
 import { trpc } from "@/utils/trpc/client";
 
 export const useSignup = () => {
   const router = useRouter();
-  const searchParams = useSearchParams();
 
   return trpc.signup.useMutation({
     onSuccess: () => {

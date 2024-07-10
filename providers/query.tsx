@@ -6,13 +6,16 @@ import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { httpBatchLink } from "@trpc/client";
 import superjson from "superjson";
+
 import { trpc } from "@/utils/trpc/client";
 
-const base = process.env.NEXT_PUBLIC_VERCEL_BRANCH_URL
+const base = process.env.NEXT_PUBLIC_DEV_URL
+  ? process.env.NEXT_PUBLIC_DEV_URL
+  : process.env.NEXT_PUBLIC_VERCEL_BRANCH_URL
   ? `https://${process.env.NEXT_PUBLIC_VERCEL_BRANCH_URL}`
   : process.env.NEXT_PUBLIC_VERCEL_URL
   ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
-  : "http://localhost:3001";
+  : "http://localhost:3000";
 const url = `${base}/api`;
 
 export const QueryProvider = ({ children }: { children: React.ReactNode }) => {

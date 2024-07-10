@@ -1,13 +1,30 @@
 import { captureException } from "@sentry/nextjs";
 import crypto from "crypto";
+import { z as zod } from "zod";
 
-import { schema } from "@/features/signup/schema";
+import { baseSchema } from "@/features/signup/schema";
 
 import { supabase } from "@/utils/supabase";
 import { publicProcedure } from "@/utils/trpc";
 
 export const signup = publicProcedure
   .input((values) => {
+    const schema = baseSchema.extend({
+      meta: zod
+        .object({
+          ref: zod.string().optional().nullable(),
+        })
+        .optional(),
+      auth: zod.object({
+        id: zod.number(),
+        first_name: zod.string(),
+        auth_date: zod.number(),
+        hash: zod.string(),
+        photo_url: zod.string(),
+        username: zod.string(),
+      }),
+    });
+
     const result = schema.safeParse(values);
 
     if (!result.success) {

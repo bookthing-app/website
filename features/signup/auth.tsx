@@ -6,18 +6,22 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Loader2 } from "lucide-react";
 
 import { useFormContext } from "react-hook-form";
+import { useSearchParams } from "next/navigation";
 import { useSignup } from "@/features/signup/mutations";
 
 import { variants, transition } from "@/features/signup/animations";
 
 import type { Schema } from "./schema";
 
-const botName = ["development", "preview"].includes(process.env.NEXT_PUBLIC_VERCEL_ENV!)
+const botName = ["development", "preview"].includes(
+  process.env.NEXT_PUBLIC_VERCEL_ENV || process.env.NODE_ENV
+)
   ? "bookthing_dev_bot"
   : "bookthing_bot";
 
 export const Auth = () => {
   const form = useFormContext<Schema>();
+  const searchParams = useSearchParams();
 
   const signupMutation = useSignup();
 
@@ -26,6 +30,9 @@ export const Auth = () => {
       signupMutation.mutate({
         ...data,
         auth,
+        meta: {
+          ref: searchParams.get("ref"),
+        },
       });
     })();
   };
