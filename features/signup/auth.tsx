@@ -6,17 +6,15 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Loader2 } from "lucide-react";
 
 import { useFormContext } from "react-hook-form";
-import { useMutation } from "@tanstack/react-query";
 import { useSignup } from "@/features/signup/mutations";
 
 import { variants, transition } from "@/features/signup/animations";
 
 import type { Schema } from "./schema";
 
-const botName =
-  process.env.NODE_ENV === "development"
-    ? "bookthing_dev_bot"
-    : "bookthing_bot";
+const botName = ["development", "preview"].includes(process.env.NODE_ENV)
+  ? "bookthing_dev_bot"
+  : "bookthing_bot";
 
 export const Auth = () => {
   const form = useFormContext<Schema>();
