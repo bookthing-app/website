@@ -12,9 +12,8 @@ import { variants, transition } from "@/features/signup/animations";
 
 import type { Schema } from "./schema";
 
-const botName = ["development", "preview"].includes(process.env.NODE_ENV)
-  ? "bookthing_dev_bot"
-  : "bookthing_bot";
+// TODO: Fix with correct environment check
+const botName = "bookthing_dev_bot"
 
 export const Auth = () => {
   const form = useFormContext<Schema>();
@@ -41,7 +40,6 @@ export const Auth = () => {
       custom={1}
       className="flex flex-col justify-center items-center rounded-lg border min-h-[125px]"
     >
-      {process.env.NODE_ENV}
       <AnimatePresence>
         {!form.formState.isSubmitted && (
           <motion.div
