@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z as zod } from "zod";
 import { captureException } from "@sentry/nextjs";
 
 import { supabase } from "@/utils/supabase";
@@ -6,8 +6,8 @@ import { publicProcedure } from "@/utils/trpc";
 
 export const slug = publicProcedure
   .input((values) => {
-    const schema = z.object({
-      slug: z
+    const schema = zod.object({
+      slug: zod
         .string()
         .min(3, { message: "Мінімум 3 символи" })
         .max(64, { message: "Максимум 64 символи" })

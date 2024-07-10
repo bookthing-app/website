@@ -15,6 +15,21 @@ export const schema = zod
     }),
     employees_amount: zod.enum(["sm", "md", "lg", "xl"]),
     locations_amount: zod.enum(["sm", "md", "lg", "xl"]),
+    meta: zod
+      .object({
+        ref: zod.string().optional(),
+      })
+      .optional(),
+    auth: zod
+      .object({
+        id: zod.number(),
+        first_name: zod.string(),
+        auth_date: zod.number(),
+        hash: zod.string(),
+        photo_url: zod.string(),
+        username: zod.string(),
+      })
+      .required(),
   })
   .refine((data) => data.slug_available, {
     message: "Цей ідентифікатор вже зайнятий",

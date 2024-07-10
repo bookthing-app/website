@@ -8,7 +8,12 @@ import { httpBatchLink } from "@trpc/client";
 import superjson from "superjson";
 import { trpc } from "@/utils/trpc/client";
 
-const url = "http://localhost:3001/api";
+const base = process.env.NEXT_PUBLIC_VERCEL_BRANCH_URL
+  ? `https://${process.env.NEXT_PUBLIC_VERCEL_BRANCH_URL}`
+  : process.env.NEXT_PUBLIC_VERCEL_URL
+  ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+  : "http://localhost:3001";
+const url = `${base}/api`;
 
 export const QueryProvider = ({ children }: { children: React.ReactNode }) => {
   const [queryClient] = useState(() => new QueryClient());

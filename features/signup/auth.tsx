@@ -21,12 +21,12 @@ const botName =
 export const Auth = () => {
   const form = useFormContext<Schema>();
 
-  const signupMutation = useMutation(useSignup());
+  const signupMutation = useSignup();
 
   const handleAuth = (auth: any) => {
     form.handleSubmit((data) => {
       signupMutation.mutate({
-        data,
+        ...data,
         auth,
       });
     })();

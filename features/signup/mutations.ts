@@ -1,32 +1,22 @@
-import axios from "axios";
+import { captureException } from "@sentry/nextjs";
 
 import { useSearchParams, useRouter } from "next/navigation";
 
 import { event } from "@/lib/pixel";
-
-import type { Schema } from "./schema";
+import { trpc } from "@/utils/trpc/client";
 
 export const useSignup = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  return {
-    mutationFn: ({ data, auth }: { data: Schema; auth: any }) => {
-      return axios.post("/api/signup", {
-        ...data,
-        ...auth,
-        meta: {
-          ref: searchParams.get("ref"),
-        },
-      });
-    },
+  return trpc.signup.useMutation({
     onSuccess: () => {
       event("CompleteRegistration");
 
       router.push("/signup/success");
     },
     onError: (error: any) => {
-      // captureException(error);
+      captureException(error);
 
       event("RegistrationError", {
         error,
@@ -34,5 +24,5 @@ export const useSignup = () => {
 
       router.push("/signup/error");
     },
-  };
+  });
 };
