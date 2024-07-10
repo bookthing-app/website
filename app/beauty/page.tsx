@@ -15,7 +15,7 @@ const Page = () => {
         <Hero
           title="послуг краси"
           className="from-[#ee9ca7] to-[#ffdde1]"
-          appUrl="https://bkth.link/j825wOR"
+          appUrl="https://bookthing.app/u/bookthing-beauty"
           referrer="beauty-page"
         />
         <About />
@@ -24,7 +24,7 @@ const Page = () => {
         <Suspense>
           <Features />
         </Suspense>
-        <CTA appUrl="https://bkth.link/j825wOR" referrer="beauty-page" />
+        <CTA appUrl="https://bookthing.app/u/bookthing-beauty" referrer="beauty-page" />
       </main>
       <Footer />
     </>

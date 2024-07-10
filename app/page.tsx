@@ -12,14 +12,14 @@ const Page = () => {
   return (
     <>
       <main>
-        <Hero referrer="homepage" />
+        <Hero appUrl="https://bookthing.app/u/bookthing-beauty" referrer="homepage" />
         <About />
         <Problems />
         <Advantages />
         <Suspense>
           <Features />
         </Suspense>
-        <CTA referrer="homepage" />
+        <CTA appUrl="https://bookthing.app/u/bookthing-beauty" referrer="homepage" />
       </main>
       <Footer />
     </>
