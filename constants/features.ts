@@ -9,6 +9,7 @@ import {
   Clock,
   BellDot,
   CalendarClock,
+  Award,
   type LucideIcon,
 } from "lucide-react";
 
@@ -24,6 +25,7 @@ interface Feature {
     width: number;
     height: number;
   };
+  isNew?: boolean;
 }
 
 export const features: Record<string, Feature> = {
@@ -45,7 +47,7 @@ export const features: Record<string, Feature> = {
     icon: BookCopy,
     color: "bg-accent-pink",
     background: "#ffd3d3",
-    label: "Бронювання",
+    label: "Календар бронювань",
     description:
       "Зручний календар бронювань. Переглядайте свій розклад та розклад ваших працівників у деталях не втрачаючи зручності користування.",
     image: {
@@ -59,7 +61,7 @@ export const features: Record<string, Feature> = {
     icon: Users2,
     color: "bg-accent-blue",
     background: "#96cfeb",
-    label: "Користувачі",
+    label: "База клієнтів",
     description:
       "Повний список ваших клієнтів в одному місці. Переглядайте, шукайте та додавайте нових клієнтів в зручному інтерфейсі.",
     image: {
@@ -82,6 +84,21 @@ export const features: Record<string, Feature> = {
       width: 853,
       height: 943,
     },
+  },
+  "employee-categories": {
+    icon: Award,
+    color: "bg-accent-yellow",
+    background: "#ffeb96",
+    label: "Категорії працівників",
+    description:
+      "Групуйте працівників за категоріями та створюйте послуги з унікальними налаштуваннями для кожної з них.",
+    image: {
+      src: "/feature-employee-categories.png",
+      alt: "Категорії працівників",
+      width: 1342,
+      height: 1146,
+    },
+    isNew: true,
   },
   services: {
     icon: LayoutList,
@@ -111,17 +128,6 @@ export const features: Record<string, Feature> = {
       height: 888,
     },
   },
-  // images: {
-  //   icon: ImageIcon,
-  //   color: "bg-accent-yellow",
-  //   label: "Зображення",
-  //   description:
-  //     "Занурюйте клієнтів в атмосферу ваших пропозицій. Завантажуйте свої найяскравіщі зображення та показуйте їх вашим клієнтам на екранах філій та послуг.",
-  //   image: {
-  //     src: "/feature-images.png",
-  //     alt: "Зображення",
-  //   },
-  // },
   "personal-cards": {
     icon: QrCode,
     color: "bg-accent-purple",
@@ -154,7 +160,7 @@ export const features: Record<string, Feature> = {
     icon: BellDot,
     color: "bg-accent-red",
     background: "#ffd3d3",
-    label: "Нагадування",
+    label: "Автоматичні нагадування",
     description:
       "Автоматизуйте процес нагадувань. Вказуйте коли та як часто надсилати нагадування вашим клієнтам, щоб вони ніколи не забували про свої бронювання.",
     image: {
@@ -168,7 +174,7 @@ export const features: Record<string, Feature> = {
     icon: CalendarClock,
     color: "bg-accent-orange",
     background: "#ffb54d",
-    label: "Час",
+    label: "Налаштування часу",
     description:
       "Налаштовуйте кожен аспект свого робочого часу. Встановлюйте буферний час, час скасування та переносу бронювання, а також інтервал між доступними віконцями.",
     image: {

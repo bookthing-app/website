@@ -2,6 +2,14 @@
 
 import { useRef } from "react";
 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
 import { Feature } from "@/components/ui/feature";
 
 import Image from "next/image";
@@ -12,7 +20,7 @@ import {
   useScroll,
   useTransform,
 } from "framer-motion";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 
 import { features } from "@/constants/features";
 
@@ -20,7 +28,8 @@ export const Features = () => {
   const ref = useRef<HTMLDivElement>(null);
 
   const searchParams = useSearchParams();
-  const { scrollYProgress, scrollXProgress } = useScroll({
+  const router = useRouter();
+  const { scrollYProgress } = useScroll({
     container: ref,
   });
 
@@ -29,8 +38,10 @@ export const Features = () => {
 
   const topOpacity = useTransform(scrollYProgress, [0, 0.1], [0, 1]);
   const bottomOpacity = useTransform(scrollYProgress, [0.9, 1], [1, 0]);
-  const leftOpacity = useTransform(scrollXProgress, [0, 0.1], [0, 1]);
-  const rightOpacity = useTransform(scrollXProgress, [0.9, 1], [1, 0]);
+
+  const handleChangeFeature = (value: string) => {
+    router.replace(`/?feature=${value}`, { scroll: false });
+  };
 
   return (
     <div className="flex flex-col gap-8 justify-center items-center p-4 sm:p-16 py-24">
@@ -38,18 +49,50 @@ export const Features = () => {
         Функціонал додатку
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-4 max-w-[1200px] w-full">
-        <div className="relative">
+        <div className="block md:hidden">
+          <Select onValueChange={handleChangeFeature} value={featureKey}>
+            <SelectTrigger className="grid grid-cols-[1fr_min-content] bg-[#f2f0ef] border-none p-4 rounded-3xl h-auto">
+              <SelectValue asChild>
+                <Feature
+                  id={featureKey}
+                  icon={feature.icon}
+                  isNew={feature.isNew}
+                  // @ts-ignore
+                  color={feature.color}
+                  showSelected={false}
+                  className="px-2"
+                >
+                  {feature.label}
+                </Feature>
+              </SelectValue>
+            </SelectTrigger>
+            <SelectContent className="select-auto-size bg-[#f2f0ef] rounded-3xl">
+              {Object.entries(features).map(([id, feature]) => (
+                <SelectItem key={id} value={id} withIcon={false} className="focus:bg-black/5" asChild>
+                  <Feature
+                    id={id}
+                    icon={feature.icon}
+                    isNew={feature.isNew}
+                    // @ts-ignore
+                    color={feature.color}
+                    showSelected={false}
+                    className="px-2"
+                  >
+                    {feature.label}
+                  </Feature>
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="hidden md:block relative">
           <motion.div
-            className="hidden md:absolute left-0 right-0 top-0 bg-gradient-to-b from-[#f2f0ef] to-[#f2f0ef]/[0] h-20 z-10 rounded-t-3xl pointer-events-none"
+            className="absolute left-0 right-0 top-0 bg-gradient-to-b from-[#f2f0ef] to-[#f2f0ef]/[0] h-20 z-10 rounded-t-3xl pointer-events-none"
             style={{ opacity: topOpacity }}
-          />
-          <motion.div
-            className="absolute md:hidden left-0 top-0 bottom-0 bg-gradient-to-r from-[#f2f0ef] to-[#f2f0ef]/[0] w-20 z-10 rounded-l-3xl pointer-events-none"
-            style={{ opacity: leftOpacity }}
           />
           <div
             ref={ref}
-            className="flex md:flex-col md:gap-2 h-auto md:h-[450px] rounded-3xl bg-[#f2f0ef] p-4 overflow-x-auto md:overflow-y-auto relative"
+            className="flex flex-col gap-2 h-[450px] rounded-3xl bg-[#f2f0ef] p-4 overflow-y-auto relative"
           >
             {Object.entries(features).map(([id, feature]) => (
               <Link key={id} href={{ query: { feature: id } }} scroll={false}>
@@ -58,17 +101,13 @@ export const Features = () => {
                   icon={feature.icon}
                   // @ts-ignore
                   color={feature.color}
-                  containerRef={ref}
+                  isNew={feature.isNew}
                 >
                   {feature.label}
                 </Feature>
               </Link>
             ))}
           </div>
-          <motion.div
-            className="absolute md:hidden right-0 top-0 bottom-0 bg-gradient-to-l from-[#f2f0ef] to-[#f2f0ef]/[0] w-20 z-10 rounded-r-3xl pointer-events-none"
-            style={{ opacity: rightOpacity }}
-          />
           <motion.div
             className="absolute left-0 right-0 bottom-0 bg-gradient-to-t from-[#f2f0ef] to-[#f2f0ef]/[0] h-20 z-10 rounded-b-3xl pointer-events-none"
             style={{ opacity: bottomOpacity }}
