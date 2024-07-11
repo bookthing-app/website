@@ -20,12 +20,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 import { motion } from "framer-motion";
-import { Loader2 } from "lucide-react";
+import { Loader2, Check } from "lucide-react";
 
 import { useFormContext } from "react-hook-form";
 import { useDebounce } from "@uidotdev/usehooks";
-import { useQuery } from "@tanstack/react-query";
-import { useSlug } from "./queries";
+import { trpc } from "@/trpc/client";
 
 import { variants, transition } from "@/features/signup/animations";
 
@@ -48,13 +47,16 @@ export const Information = ({
 
   const debouncedSlug = useDebounce(slug, 750);
 
-  const slugQuery = useQuery(useSlug(debouncedSlug));
+  const slugQuery = trpc.slug.useQuery(
+    { slug: debouncedSlug },
+    { enabled: !!debouncedSlug.length, retry: false }
+  );
 
   useEffect(() => {
     if (slugQuery.error) {
       form.setError("slug", {
         type: "custom",
-        message: "Цей ідентифікатор вже зайнятий",
+        message: slugQuery.error.message,
       });
       form.setValue("slug_available", false);
     }
@@ -62,8 +64,9 @@ export const Information = ({
   }, [slugQuery.error]);
 
   useEffect(() => {
-    if (slugQuery.data === "ok") {
+    if (slugQuery.data?.success) {
       form.setValue("slug_available", true);
+      form.clearErrors("slug");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slugQuery.data]);
@@ -127,6 +130,11 @@ export const Information = ({
                   {slugQuery.isLoading && (
                     <div className="inline-flex justify-center items-center absolute right-2 top-0 h-full">
                       <Loader2 className="size-4 text-muted-foreground animate-spin" />
+                    </div>
+                  )}
+                  {!slugQuery.isLoading && slugQuery.data?.success && (
+                    <div className="inline-flex justify-center items-center absolute right-2 top-0 h-full">
+                      <Check className="size-4 text-accent-green" />
                     </div>
                   )}
                 </Input>

@@ -6,28 +6,33 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Loader2 } from "lucide-react";
 
 import { useFormContext } from "react-hook-form";
-import { useMutation } from "@tanstack/react-query";
+import { useSearchParams } from "next/navigation";
 import { useSignup } from "@/features/signup/mutations";
 
 import { variants, transition } from "@/features/signup/animations";
 
 import type { Schema } from "./schema";
 
-const botName =
-  process.env.NODE_ENV === "development"
-    ? "bookthing_dev_bot"
-    : "bookthing_bot";
+const botName = ["development", "preview"].includes(
+  process.env.NEXT_PUBLIC_VERCEL_ENV || process.env.NODE_ENV
+)
+  ? "bookthing_dev_bot"
+  : "bookthing_bot";
 
 export const Auth = () => {
   const form = useFormContext<Schema>();
+  const searchParams = useSearchParams();
 
-  const signupMutation = useMutation(useSignup());
+  const signupMutation = useSignup();
 
   const handleAuth = (auth: any) => {
     form.handleSubmit((data) => {
       signupMutation.mutate({
-        data,
+        ...data,
         auth,
+        meta: {
+          ref: searchParams.get("ref"),
+        },
       });
     })();
   };
@@ -41,7 +46,7 @@ export const Auth = () => {
       variants={variants}
       transition={transition}
       custom={1}
-      className="flex flex-col justify-center items-center rounded-lg border min-h-[125px]"
+      className="flex flex-col justify-center items-center rounded-lg border min-h-[125px] relative"
     >
       <AnimatePresence>
         {!form.formState.isSubmitted && (
@@ -55,8 +60,6 @@ export const Auth = () => {
             <TelegramLogin onAuth={handleAuth} botName={botName} />
           </motion.div>
         )}
-      </AnimatePresence>
-      <AnimatePresence>
         {signupMutation.isPending && (
           <motion.div
             initial={{ opacity: 0 }}
