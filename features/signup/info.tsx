@@ -24,7 +24,7 @@ import { Loader2, Check } from "lucide-react";
 
 import { useFormContext } from "react-hook-form";
 import { useDebounce } from "@uidotdev/usehooks";
-import { trpc } from "@/utils/trpc/client";
+import { trpc } from "@/trpc/client";
 
 import { variants, transition } from "@/features/signup/animations";
 

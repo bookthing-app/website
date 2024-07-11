@@ -2,7 +2,7 @@ import { z as zod } from "zod";
 import { captureException } from "@sentry/nextjs";
 
 import { supabase } from "@/utils/supabase";
-import { publicProcedure } from "@/utils/trpc";
+import { publicProcedure } from "@/trpc";
 
 export const slug = publicProcedure
   .input((values) => {

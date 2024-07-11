@@ -5,7 +5,7 @@ import { z as zod } from "zod";
 import { baseSchema } from "@/features/signup/schema";
 
 import { supabase } from "@/utils/supabase";
-import { publicProcedure } from "@/utils/trpc";
+import { publicProcedure } from "@/trpc";
 
 export const signup = publicProcedure
   .input((values) => {

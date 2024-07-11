@@ -3,7 +3,7 @@ import { captureException } from "@sentry/nextjs";
 import { useRouter } from "next/navigation";
 
 import { event } from "@/lib/pixel";
-import { trpc } from "@/utils/trpc/client";
+import { trpc } from "@/trpc/client";
 
 export const useSignup = () => {
   const router = useRouter();

@@ -7,7 +7,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { httpBatchLink } from "@trpc/client";
 import superjson from "superjson";
 
-import { trpc } from "@/utils/trpc/client";
+import { trpc } from "@/trpc/client";
 
 const base = process.env.NEXT_PUBLIC_DEV_URL
   ? process.env.NEXT_PUBLIC_DEV_URL
