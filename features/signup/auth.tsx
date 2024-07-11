@@ -46,7 +46,7 @@ export const Auth = () => {
       variants={variants}
       transition={transition}
       custom={1}
-      className="flex flex-col justify-center items-center rounded-lg border min-h-[125px]"
+      className="flex flex-col justify-center items-center rounded-lg border min-h-[125px] relative"
     >
       <AnimatePresence>
         {!form.formState.isSubmitted && (
@@ -60,8 +60,6 @@ export const Auth = () => {
             <TelegramLogin onAuth={handleAuth} botName={botName} />
           </motion.div>
         )}
-      </AnimatePresence>
-      <AnimatePresence>
         {signupMutation.isPending && (
           <motion.div
             initial={{ opacity: 0 }}
